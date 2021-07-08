@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.ConditionVariable;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout dotLayout;
     private TextView[] dots;
     private int[] layouts;
+    private String[] backgroundColors;
     private Button btnSkip, btnNext;
     private PrefManager prefManager;
     private PagerAdapter pagerAdapter;
@@ -58,11 +60,18 @@ public class MainActivity extends AppCompatActivity {
                 R.layout.welcome_slide4
         };
 
+        backgroundColors = new String[]{
+                "#f64c73",
+                "#20d2bb",
+                "#3395ff",
+                "#c873f4"
+        };
+
         // Adding the bottom dots
         addBottomDots(0);
 
         // Making the notification bar transparent
-        changeStatusBarColor();
+        changeStatusBarColor(backgroundColors[0]);
 
         pagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(pagerAdapter);
@@ -70,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnNext.setOnClickListener(v -> {
             // Checking for last page
-            // If last page home screen will be lanched
+            // If last page home screen will be launched
             int current = getItem(+1);
             if(current < layouts.length){
                 // move to next screen
@@ -108,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         return viewPager.getCurrentItem() + 1;
     }
 
-    // ViewPager channge Listeners
+    // ViewPager Change Listeners
     ViewPager.OnPageChangeListener viewPagerOnPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -138,10 +147,8 @@ public class MainActivity extends AppCompatActivity {
     };
 
     @SuppressLint("InlinedApi")
-    private void changeStatusBarColor(){
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(Color.TRANSPARENT);
+    private void changeStatusBarColor(String color){
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     /**
